@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Product } from '../types'
 import Button from '../components/common/Button'
 import Modal from '../components/common/Modal'
@@ -9,7 +8,6 @@ import UpdateProductForm from '../components/forms/product/UpdateProductForm'
 import ProductDetail from '../components/detail/ProductDetail'
 
 const Products = () => {
-  const navigate = useNavigate()
   const [showAddModal, setShowAddModal] = useState(false)
   const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
