@@ -1,4 +1,5 @@
-import { Outlet, useLocation, Link } from 'react-router-dom'
+import { Outlet, useLocation, Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 interface SidebarItemProps {
   icon: string
@@ -25,6 +26,8 @@ const SidebarItem = ({ icon, label, path, active }: SidebarItemProps) => {
 
 const DashboardLayout = () => {
   const location = useLocation()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   const sidebarItems = [
     { icon: '📊', label: 'Overview', path: '/' },
@@ -34,6 +37,21 @@ const DashboardLayout = () => {
     { icon: '🛒', label: 'Orders', path: '/orders' },
     { icon: '👥', label: 'Users', path: '/users' },
   ]
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
+  const getUserInitials = () => {
+    if (!user) return 'U'
+    return user.name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -46,8 +64,20 @@ const DashboardLayout = () => {
               <button className="px-4 py-2 border-2 border-black rounded-xl font-light hover:bg-black hover:text-white transition-colors">
                 Notifications
               </button>
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white font-semibold">
-                A
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-sm font-light text-black">{user?.name}</p>
+                  <p className="text-xs font-light text-gray-500 capitalize">{user?.role}</p>
+                </div>
+                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white font-semibold">
+                  {getUserInitials()}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 border-2 border-black rounded-xl font-light hover:bg-black hover:text-white transition-colors"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
@@ -56,8 +86,8 @@ const DashboardLayout = () => {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white border-r-2 border-black min-h-[calc(100vh-73px)] p-6">
-          <nav className="space-y-2">
+        <aside className="w-64 bg-white border-r-2 border-black min-h-[calc(100vh-73px)] flex flex-col p-6">
+          <nav className="space-y-2 flex-1">
             {sidebarItems.map((item) => (
               <SidebarItem
                 key={item.path}
@@ -68,6 +98,42 @@ const DashboardLayout = () => {
               />
             ))}
           </nav>
+          
+          {/* Vertical Footer */}
+          <footer className="mt-auto pt-6 border-t-2 border-gray-200">
+            <div className="space-y-3">
+              <div className="text-xs text-gray-500 font-light">
+                <p className="mb-1">Vinca Dashboard</p>
+                <p>Version 1.0.0</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <a 
+                  href="#" 
+                  className="text-xs text-gray-600 hover:text-black font-light transition-colors"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Help & Support
+                </a>
+                <a 
+                  href="#" 
+                  className="text-xs text-gray-600 hover:text-black font-light transition-colors"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Documentation
+                </a>
+                <a 
+                  href="#" 
+                  className="text-xs text-gray-600 hover:text-black font-light transition-colors"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Privacy Policy
+                </a>
+              </div>
+              <div className="pt-2 text-xs text-gray-400 font-light">
+                © 2024 Vinca. All rights reserved.
+              </div>
+            </div>
+          </footer>
         </aside>
 
         {/* Main Content */}

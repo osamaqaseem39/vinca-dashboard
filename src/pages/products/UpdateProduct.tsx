@@ -7,7 +7,7 @@ import Button from '../../components/common/Button'
 const UpdateProduct = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [product, setProduct] = useState<Product | null>(null)
+  const [product, _setProduct] = useState<Product | null>(null)
 
   useEffect(() => {
     // Fetch product by id

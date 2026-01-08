@@ -16,5 +16,33 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-light;
   }
+
+  /* Ensure buttons are properly styled */
+  button {
+    @apply cursor-pointer;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+}
+
+@layer components {
+  /* Enhanced button styles to ensure visibility */
+  .btn-primary {
+    @apply px-4 py-2 bg-black text-white rounded-xl font-light hover:bg-gray-800 transition-colors border-2 border-black;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-white text-black rounded-xl font-light hover:bg-gray-100 transition-colors border-2 border-black;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-600 text-white rounded-xl font-light hover:bg-red-700 transition-colors border-2 border-red-600;
+  }
+
+  .btn-outline {
+    @apply px-4 py-2 bg-transparent text-black rounded-xl font-light hover:bg-black hover:text-white transition-colors border-2 border-black;
+  }
 }
 
