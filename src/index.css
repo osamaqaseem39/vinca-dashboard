@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply font-light;
+  }
+  
   body {
-    @apply font-sans antialiased;
+    @apply font-sans antialiased text-gray-900;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-light;
   }
 }
 

@@ -11,7 +11,7 @@ const SidebarItem = ({ icon, label, path, active }: SidebarItemProps) => {
   return (
     <Link
       to={path}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-light transition-all ${
         active
           ? 'bg-black text-white'
           : 'text-black hover:bg-gray-100 border border-transparent hover:border-black'
@@ -29,6 +29,7 @@ const DashboardLayout = () => {
   const sidebarItems = [
     { icon: '📊', label: 'Overview', path: '/' },
     { icon: '📦', label: 'Products', path: '/products' },
+    { icon: '📊', label: 'Inventory', path: '/inventory' },
     { icon: '🏷️', label: 'Categories', path: '/categories' },
     { icon: '🛒', label: 'Orders', path: '/orders' },
     { icon: '👥', label: 'Users', path: '/users' },
@@ -40,9 +41,9 @@ const DashboardLayout = () => {
       <header className="bg-white border-b-2 border-black">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-black">Vinca Dashboard</h1>
+            <h1 className="text-2xl font-light text-black tracking-wide">Vinca Dashboard</h1>
             <div className="flex items-center gap-4">
-              <button className="px-4 py-2 border-2 border-black rounded-xl font-medium hover:bg-black hover:text-white transition-colors">
+              <button className="px-4 py-2 border-2 border-black rounded-xl font-light hover:bg-black hover:text-white transition-colors">
                 Notifications
               </button>
               <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white font-semibold">

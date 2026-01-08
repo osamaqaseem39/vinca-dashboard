@@ -1,44 +1,20 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Order } from '../types'
 import Button from '../components/common/Button'
-import Modal from '../components/common/Modal'
 import DeleteConfirmModal from '../components/delete/DeleteConfirmModal'
-import UpdateOrderForm from '../components/forms/order/UpdateOrderForm'
-import OrderDetail from '../components/detail/OrderDetail'
 
 const Orders = () => {
-  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const navigate = useNavigate()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [showDetail, setShowDetail] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [orders] = useState<Order[]>([]) // Replace with actual data fetching
-
-  const handleUpdate = (data: Partial<Order>) => {
-    console.log('Update order:', data)
-    // Implement API call
-    setShowUpdateModal(false)
-  }
 
   const handleDelete = () => {
     console.log('Delete order:', selectedOrder?._id)
     // Implement API call
     setShowDeleteModal(false)
     setSelectedOrder(null)
-  }
-
-  const handleViewDetail = (order: Order) => {
-    setSelectedOrder(order)
-    setShowDetail(true)
-  }
-
-  const handleEdit = () => {
-    setShowDetail(false)
-    setShowUpdateModal(true)
-  }
-
-  const handleDeleteFromDetail = () => {
-    setShowDetail(false)
-    setShowDeleteModal(true)
   }
 
   const getStatusColor = (status: string) => {
@@ -60,7 +36,7 @@ const Orders = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-black">Orders</h1>
+        <h1 className="text-3xl font-light text-black tracking-wide">Orders</h1>
       </div>
 
       <div className="bg-white border-2 border-black rounded-2xl p-6">
@@ -68,45 +44,45 @@ const Orders = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b-2 border-black">
-                <th className="text-left py-3 px-4 font-semibold text-black">Order Number</th>
-                <th className="text-left py-3 px-4 font-semibold text-black">Status</th>
-                <th className="text-left py-3 px-4 font-semibold text-black">Payment</th>
-                <th className="text-left py-3 px-4 font-semibold text-black">Total</th>
-                <th className="text-left py-3 px-4 font-semibold text-black">Date</th>
-                <th className="text-left py-3 px-4 font-semibold text-black">Actions</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Order Number</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Status</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Payment</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Total</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Date</th>
+                <th className="text-left py-3 px-4 font-light text-black uppercase tracking-wide text-sm">Actions</th>
               </tr>
             </thead>
             <tbody>
               {orders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-gray-600 font-medium">
+                  <td colSpan={6} className="py-8 text-center text-gray-600 font-light">
                     No orders found.
                   </td>
                 </tr>
               ) : (
                 orders.map((order) => (
                   <tr key={order._id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-black">{order.orderNumber}</td>
+                    <td className="py-3 px-4 font-light text-black">{order.orderNumber}</td>
                     <td className="py-3 px-4">
-                      <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold border-2 ${getStatusColor(order.orderStatus)}`}>
+                      <span className={`inline-block px-3 py-1 rounded-lg text-xs font-light border-2 ${getStatusColor(order.orderStatus)}`}>
                         {order.orderStatus}
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className={`inline-block px-3 py-1 rounded-lg text-xs font-semibold border-2 ${getStatusColor(order.paymentStatus)}`}>
+                      <span className={`inline-block px-3 py-1 rounded-lg text-xs font-light border-2 ${getStatusColor(order.paymentStatus)}`}>
                         {order.paymentStatus}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-semibold text-black">${order.totalPrice}</td>
-                    <td className="py-3 px-4 font-medium text-gray-600">
+                    <td className="py-3 px-4 font-light text-black">${order.totalPrice}</td>
+                    <td className="py-3 px-4 font-light text-gray-600">
                       {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => handleViewDetail(order)}>
+                        <Button variant="outline" onClick={() => navigate(`/orders/${order._id}`)}>
                           View
                         </Button>
-                        <Button variant="secondary" onClick={() => { setSelectedOrder(order); setShowUpdateModal(true) }}>
+                        <Button variant="secondary" onClick={() => navigate(`/orders/${order._id}/edit`)}>
                           Edit
                         </Button>
                         <Button variant="danger" onClick={() => { setSelectedOrder(order); setShowDeleteModal(true) }}>
@@ -121,36 +97,6 @@ const Orders = () => {
           </table>
         </div>
       </div>
-
-      <Modal
-        isOpen={showUpdateModal}
-        onClose={() => { setShowUpdateModal(false); setSelectedOrder(null) }}
-        title="Update Order"
-        footer={null}
-      >
-        {selectedOrder && (
-          <UpdateOrderForm
-            order={selectedOrder}
-            onSubmit={handleUpdate}
-            onCancel={() => { setShowUpdateModal(false); setSelectedOrder(null) }}
-          />
-        )}
-      </Modal>
-
-      <Modal
-        isOpen={showDetail}
-        onClose={() => { setShowDetail(false); setSelectedOrder(null) }}
-        title="Order Details"
-        footer={null}
-      >
-        {selectedOrder && (
-          <OrderDetail
-            order={selectedOrder}
-            onEdit={handleEdit}
-            onDelete={handleDeleteFromDetail}
-          />
-        )}
-      </Modal>
 
       <DeleteConfirmModal
         isOpen={showDeleteModal}

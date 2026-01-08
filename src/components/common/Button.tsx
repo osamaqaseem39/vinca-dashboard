@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({ variant = 'primary', children, className = '', ...props }: ButtonProps) => {
-  const baseStyles = 'px-4 py-2 rounded-xl font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+  const baseStyles = 'px-4 py-2 rounded-xl font-light transition-all disabled:opacity-50 disabled:cursor-not-allowed'
   
   const variants = {
     primary: 'bg-black text-white hover:bg-gray-800 border-2 border-black',

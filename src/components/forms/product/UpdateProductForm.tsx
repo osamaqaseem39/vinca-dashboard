@@ -4,6 +4,8 @@ import Input from '../../common/Input'
 import Textarea from '../../common/Textarea'
 import Select from '../../common/Select'
 import Button from '../../common/Button'
+import Modal from '../../common/Modal'
+import AddBrandForm, { Brand } from '../brand/AddBrandForm'
 
 interface UpdateProductFormProps {
   product: Product
@@ -15,6 +17,9 @@ interface UpdateProductFormProps {
 const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdateProductFormProps) => {
   const [formData, setFormData] = useState<Partial<Product>>(product)
   const [imageUrl, setImageUrl] = useState('')
+  const [isBrandModalOpen, setIsBrandModalOpen] = useState(false)
+  const [brands, setBrands] = useState<Brand[]>([])
+  const [isCreatingBrand, setIsCreatingBrand] = useState(false)
 
   useEffect(() => {
     setFormData(product)
@@ -42,6 +47,33 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
     })
   }
 
+  const handleCreateBrand = async (brandData: Partial<Brand>) => {
+    setIsCreatingBrand(true)
+    try {
+      // TODO: Implement API call to create brand
+      // const response = await fetch('/api/brands', { method: 'POST', ... })
+      // const newBrand = await response.json()
+      
+      // For now, simulate brand creation
+      const newBrand: Brand = {
+        _id: Date.now().toString(),
+        name: brandData.name || '',
+        description: brandData.description,
+        logo: brandData.logo,
+        website: brandData.website,
+        isActive: brandData.isActive ?? true
+      }
+      
+      setBrands([...brands, newBrand])
+      setFormData({ ...formData, brand: newBrand.name })
+      setIsBrandModalOpen(false)
+    } catch (error) {
+      console.error('Error creating brand:', error)
+    } finally {
+      setIsCreatingBrand(false)
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,12 +83,36 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
         />
-        <Input
-          label="Brand"
-          value={formData.brand || ''}
-          onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-          required
-        />
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <label className="block text-sm font-semibold text-black">
+              Brand
+              <span className="text-red-600 ml-1">*</span>
+            </label>
+          </div>
+          <div className="flex gap-2">
+            <Select
+              value={formData.brand || ''}
+              onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+              options={[
+                { value: '', label: 'Select a brand...' },
+                ...brands.map(brand => ({ value: brand.name, label: brand.name })),
+                ...(formData.brand && !brands.some(b => b.name === formData.brand)
+                  ? [{ value: formData.brand, label: formData.brand }]
+                  : [])
+              ]}
+              required
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsBrandModalOpen(true)}
+            >
+              + New
+            </Button>
+          </div>
+        </div>
         <Input
           label="SKU"
           value={formData.sku || ''}
@@ -126,11 +182,31 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           ]}
           required
         />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
         <Input
-          label="Frame Color"
-          value={formData.frameColor || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: e.target.value })}
+          label="Primary Color"
+          value={formData.frameColor?.primary || ''}
+          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), primary: e.target.value } })}
           required
+        />
+        <Input
+          label="Secondary Color (optional)"
+          value={formData.frameColor?.secondary || ''}
+          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), secondary: e.target.value || undefined } })}
+        />
+        <Select
+          label="Finish (optional)"
+          value={formData.frameColor?.finish || ''}
+          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), finish: e.target.value as 'matte' | 'glossy' | 'satin' | 'metallic' || undefined } })}
+          options={[
+            { value: '', label: 'None' },
+            { value: 'matte', label: 'Matte' },
+            { value: 'glossy', label: 'Glossy' },
+            { value: 'satin', label: 'Satin' },
+            { value: 'metallic', label: 'Metallic' }
+          ]}
         />
         <Select
           label="Lens Type"
@@ -232,6 +308,18 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           {isLoading ? 'Updating...' : 'Update Product'}
         </Button>
       </div>
+
+      <Modal
+        isOpen={isBrandModalOpen}
+        onClose={() => setIsBrandModalOpen(false)}
+        title="Create New Brand"
+      >
+        <AddBrandForm
+          onSubmit={handleCreateBrand}
+          onCancel={() => setIsBrandModalOpen(false)}
+          isLoading={isCreatingBrand}
+        />
+      </Modal>
     </form>
   )
 }

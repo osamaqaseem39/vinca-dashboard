@@ -12,8 +12,8 @@ const Overview = () => {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-black mb-2">Overview</h2>
-        <p className="text-gray-600 font-medium">
+        <h2 className="text-3xl font-light text-black mb-2 tracking-wide">Overview</h2>
+        <p className="text-gray-600 font-light">
           Welcome back! Here's what's happening today.
         </p>
       </div>
@@ -21,9 +21,9 @@ const Overview = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <div key={stat.title} className="bg-white border-2 border-black rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-sm font-medium text-gray-600 mb-2">{stat.title}</p>
-            <p className="text-3xl font-bold text-black mb-1">{stat.value}</p>
-            <p className={`text-sm font-medium ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+            <p className="text-sm font-light text-gray-600 mb-2">{stat.title}</p>
+            <p className="text-3xl font-light text-black mb-1">{stat.value}</p>
+            <p className={`text-sm font-light ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
               {stat.change}
             </p>
           </div>
@@ -32,14 +32,14 @@ const Overview = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border-2 border-black rounded-2xl p-6">
-          <h3 className="text-xl font-bold text-black mb-4">Sales Overview</h3>
+          <h3 className="text-xl font-light text-black mb-4 tracking-wide">Sales Overview</h3>
           <div className="h-64 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-xl">
-            <p className="text-gray-500 font-medium">Chart visualization area</p>
+            <p className="text-gray-500 font-light">Chart visualization area</p>
           </div>
         </div>
 
         <div className="bg-white border-2 border-black rounded-2xl p-6">
-          <h3 className="text-xl font-bold text-black mb-4">Quick Actions</h3>
+          <h3 className="text-xl font-light text-black mb-4 tracking-wide">Quick Actions</h3>
           <div className="space-y-3">
             <Link to="/products">
               <Button variant="outline" className="w-full justify-center">

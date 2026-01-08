@@ -66,7 +66,11 @@ const ProductDetail = ({ product, onEdit, onDelete }: ProductDetailProps) => {
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-600">Frame Color</p>
-              <p className="text-base font-bold text-black">{product.frameColor}</p>
+              <p className="text-base font-bold text-black">
+                {product.frameColor?.primary}
+                {product.frameColor?.secondary && ` / ${product.frameColor.secondary}`}
+                {product.frameColor?.finish && ` (${product.frameColor.finish})`}
+              </p>
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-600">Lens Type</p>
