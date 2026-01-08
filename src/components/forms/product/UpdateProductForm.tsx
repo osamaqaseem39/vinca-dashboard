@@ -43,7 +43,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
   const removeImage = (index: number) => {
     setFormData({
       ...formData,
-      images: formData.images?.filter((_, i) => i !== index) || []
+      images: formData.images?.filter((_: string, i: number) => i !== index) || []
     })
   }
 
@@ -80,7 +80,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Input
           label="Product Name"
           value={formData.name || ''}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, name: e.target.value })}
           required
         />
         <div>
@@ -93,11 +93,11 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           <div className="flex gap-2">
             <Select
               value={formData.brand || ''}
-              onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, brand: e.target.value })}
               options={[
                 { value: '', label: 'Select a brand...' },
-                ...brands.map(brand => ({ value: brand.name, label: brand.name })),
-                ...(formData.brand && !brands.some(b => b.name === formData.brand)
+                ...brands.map((brand: Brand) => ({ value: brand.name, label: brand.name })),
+                ...(formData.brand && !brands.some((b: Brand) => b.name === formData.brand)
                   ? [{ value: formData.brand, label: formData.brand }]
                   : [])
               ]}
@@ -116,7 +116,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Input
           label="SKU"
           value={formData.sku || ''}
-          onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, sku: e.target.value })}
           required
         />
         <Input
@@ -124,7 +124,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           type="number"
           step="0.01"
           value={formData.price || 0}
-          onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
           required
         />
         <Input
@@ -132,13 +132,13 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           type="number"
           step="0.01"
           value={formData.discountPrice || ''}
-          onChange={(e) => setFormData({ ...formData, discountPrice: parseFloat(e.target.value) || undefined })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, discountPrice: parseFloat(e.target.value) || undefined })}
         />
         <Input
           label="Stock Quantity"
           type="number"
           value={formData.stockQuantity || 0}
-          onChange={(e) => setFormData({ ...formData, stockQuantity: parseInt(e.target.value) || 0 })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, stockQuantity: parseInt(e.target.value) || 0 })}
           required
         />
       </div>
@@ -146,7 +146,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
       <Textarea
         label="Description"
         value={formData.description || ''}
-        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
         rows={3}
         required
       />
@@ -155,7 +155,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Select
           label="Frame Type"
           value={formData.frameType || 'full-rim'}
-          onChange={(e) => setFormData({ ...formData, frameType: e.target.value as Product['frameType'] })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, frameType: e.target.value as Product['frameType'] })}
           options={[
             { value: 'full-rim', label: 'Full Rim' },
             { value: 'semi-rimless', label: 'Semi Rimless' },
@@ -171,7 +171,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Select
           label="Frame Material"
           value={formData.frameMaterial || 'acetate'}
-          onChange={(e) => setFormData({ ...formData, frameMaterial: e.target.value as Product['frameMaterial'] })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, frameMaterial: e.target.value as Product['frameMaterial'] })}
           options={[
             { value: 'acetate', label: 'Acetate' },
             { value: 'metal', label: 'Metal' },
@@ -188,18 +188,18 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Input
           label="Primary Color"
           value={formData.frameColor?.primary || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), primary: e.target.value } })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), primary: e.target.value } })}
           required
         />
         <Input
           label="Secondary Color (optional)"
           value={formData.frameColor?.secondary || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), secondary: e.target.value || undefined } })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, frameColor: { primary: formData.frameColor?.primary || '', secondary: e.target.value || undefined, finish: formData.frameColor?.finish } })}
         />
         <Select
           label="Finish (optional)"
           value={formData.frameColor?.finish || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: { ...(formData.frameColor || {}), finish: e.target.value as 'matte' | 'glossy' | 'satin' | 'metallic' || undefined } })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, frameColor: { primary: formData.frameColor?.primary || '', secondary: formData.frameColor?.secondary, finish: e.target.value as 'matte' | 'glossy' | 'satin' | 'metallic' || undefined } })}
           options={[
             { value: '', label: 'None' },
             { value: 'matte', label: 'Matte' },
@@ -211,7 +211,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Select
           label="Lens Type"
           value={formData.lensType || 'single-vision'}
-          onChange={(e) => setFormData({ ...formData, lensType: e.target.value as Product['lensType'] })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, lensType: e.target.value as Product['lensType'] })}
           options={[
             { value: 'single-vision', label: 'Single Vision' },
             { value: 'bifocal', label: 'Bifocal' },
@@ -224,7 +224,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <Select
           label="Gender"
           value={formData.gender || 'unisex'}
-          onChange={(e) => setFormData({ ...formData, gender: e.target.value as Product['gender'] })}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, gender: e.target.value as Product['gender'] })}
           options={[
             { value: 'men', label: 'Men' },
             { value: 'women', label: 'Women' },
@@ -238,7 +238,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
             type="checkbox"
             id="inStock"
             checked={formData.inStock}
-            onChange={(e) => setFormData({ ...formData, inStock: e.target.checked })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, inStock: e.target.checked })}
             className="w-5 h-5 border-2 border-black rounded"
           />
           <label htmlFor="inStock" className="font-semibold text-black">
@@ -252,21 +252,21 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           label="Eye Size"
           type="number"
           value={formData.size?.eye || 50}
-          onChange={(e) => setFormData({ ...formData, size: { ...formData.size!, eye: parseInt(e.target.value) || 50 } })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, size: { ...formData.size!, eye: parseInt(e.target.value) || 50 } })}
           required
         />
         <Input
           label="Bridge Size"
           type="number"
           value={formData.size?.bridge || 18}
-          onChange={(e) => setFormData({ ...formData, size: { ...formData.size!, bridge: parseInt(e.target.value) || 18 } })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, size: { ...formData.size!, bridge: parseInt(e.target.value) || 18 } })}
           required
         />
         <Input
           label="Temple Size"
           type="number"
           value={formData.size?.temple || 140}
-          onChange={(e) => setFormData({ ...formData, size: { ...formData.size!, temple: parseInt(e.target.value) || 140 } })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, size: { ...formData.size!, temple: parseInt(e.target.value) || 140 } })}
           required
         />
       </div>
@@ -276,7 +276,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
         <div className="flex gap-2 mb-2">
           <Input
             value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
             placeholder="Image URL"
             className="flex-1"
           />
@@ -285,7 +285,7 @@ const UpdateProductForm = ({ product, onSubmit, onCancel, isLoading }: UpdatePro
           </Button>
         </div>
         <div className="flex flex-wrap gap-2">
-          {formData.images?.map((img, index) => (
+          {formData.images?.map((img: string, index: number) => (
             <div key={index} className="relative group">
               <img src={img} alt={`Product ${index + 1}`} className="w-20 h-20 object-cover border-2 border-black rounded-lg" />
               <button

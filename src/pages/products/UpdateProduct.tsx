@@ -34,7 +34,7 @@ const UpdateProduct = () => {
           <Button variant="outline" onClick={() => navigate('/products')}>
             ← Back
           </Button>
-          <h1 className="text-3xl font-bold text-black">Update Product</h1>
+          <h1 className="text-3xl font-light text-black tracking-wide">Update Product</h1>
         </div>
         <div className="bg-white border-2 border-black rounded-2xl p-6 text-center">
           <p className="text-gray-600">Loading product...</p>
@@ -49,7 +49,7 @@ const UpdateProduct = () => {
         <Button variant="outline" onClick={() => navigate('/products')}>
           ← Back
         </Button>
-        <h1 className="text-3xl font-bold text-black">Update Product</h1>
+        <h1 className="text-3xl font-light text-black tracking-wide">Update Product</h1>
       </div>
 
       <div className="bg-white border-2 border-black rounded-2xl p-6">

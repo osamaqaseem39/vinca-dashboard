@@ -7,7 +7,7 @@ import Button from '../../components/common/Button'
 const UpdateOrder = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [order, setOrder] = useState<Order | null>(null)
+  const [order] = useState<Order | null>(null)
 
   useEffect(() => {
     // Fetch order by id

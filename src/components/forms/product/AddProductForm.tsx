@@ -207,12 +207,12 @@ const AddProductForm = ({ onSubmit, onCancel, isLoading }: AddProductFormProps) 
         <Input
           label="Secondary Color (optional)"
           value={formData.frameColor?.secondary || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: { ...formData.frameColor, secondary: e.target.value || undefined } })}
+          onChange={(e) => setFormData({ ...formData, frameColor: { primary: formData.frameColor?.primary || '', secondary: e.target.value || undefined, finish: formData.frameColor?.finish } })}
         />
         <Select
           label="Finish (optional)"
           value={formData.frameColor?.finish || ''}
-          onChange={(e) => setFormData({ ...formData, frameColor: { ...formData.frameColor, finish: e.target.value as 'matte' | 'glossy' | 'satin' | 'metallic' || undefined } })}
+          onChange={(e) => setFormData({ ...formData, frameColor: { primary: formData.frameColor?.primary || '', secondary: formData.frameColor?.secondary, finish: e.target.value as 'matte' | 'glossy' | 'satin' | 'metallic' || undefined } })}
           options={[
             { value: '', label: 'None' },
             { value: 'matte', label: 'Matte' },

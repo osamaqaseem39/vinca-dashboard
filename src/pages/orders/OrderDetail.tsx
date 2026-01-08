@@ -8,7 +8,7 @@ import DeleteConfirmModal from '../../components/delete/DeleteConfirmModal'
 const OrderDetail = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [order, setOrder] = useState<Order | null>(null)
+  const [order] = useState<Order | null>(null)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {

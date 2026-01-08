@@ -7,7 +7,7 @@ import Button from '../../components/common/Button'
 const UpdateCategory = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [category, setCategory] = useState<Category | null>(null)
+  const [category] = useState<Category | null>(null)
 
   useEffect(() => {
     // Fetch category by id

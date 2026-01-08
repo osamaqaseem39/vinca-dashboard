@@ -7,7 +7,7 @@ import Button from '../../components/common/Button'
 const UpdateUser = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [user, setUser] = useState<User | null>(null)
+  const [user] = useState<User | null>(null)
 
   useEffect(() => {
     // Fetch user by id
